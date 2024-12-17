@@ -1,2 +1,2 @@
 # tfg-api
-API REST for backend communication between app (TFG) and database
+REST API for backend communication between app (TFG) and database
