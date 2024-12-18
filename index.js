@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
 import db from "./config/db.js";
-import { config } from "dotenv";
+import dotenv from "dotenv";
 import professorRouter from "./src/routes/professor.routes.js";
 
-config();
-db(process.env.MYSQL_URL);
+dotenv.config();
 const app = express();
 
 app.use(cors({
