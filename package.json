@@ -1,31 +1,31 @@
 {
-  "name": "tfg-api",
+  "name": "test-api",
   "version": "1.0.0",
-  "description": "REST API for backend communication between app (TFG) and database",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./index.js",
+    "dev": "nodemon --ext ts --exec ts-node ./index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "express-validator": "^7.2.0",
-    "mysql": "^2.18.1",
+    "joi": "^17.13.3",
     "mysql2": "^3.11.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/joi": "^17.2.3",
     "@types/node": "^22.10.2",
-    "joi": "17.13.3",
     "nodemon": "^3.1.9",
-    "prettier": "3.4.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   }
 }

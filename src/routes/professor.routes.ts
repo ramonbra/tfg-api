@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createProfessor, getProfessors, updateProfessor, deleteProfessor } from '../controllers/professor.controller.js';
+import { createProfessor, getProfessors, updateProfessor, deleteProfessor } from '../controllers/professor.controller.ts';
 
 const professorRouter = Router();
 

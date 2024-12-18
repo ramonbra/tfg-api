@@ -1,14 +1,15 @@
-import db from '../../config/db.js';
+import db from '../../config/db.ts';
 import Joi from 'joi';
 import { 
     createProfessorSchema, 
     updateProfessorSchema
-} from '../schemas/professor.schema.js';
-import { ProfessorData } from '../models/professor.model.js';
-import { hashPassword } from './hasher.service.js';
+} from '../schemas/professor.schema.ts';
+import { ProfessorData } from '../models/professor.model.ts';
+import { hashPassword } from './hasher.service.ts';
+import { ResultSetHeader } from 'mysql2';
 
 export const ProfessorService = {
-    async create( professorData ) {
+    async create( professorData: any ) {
         const { error, value } = createProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
         if ( error ) {
             throw new Error(error.details[0].message);
@@ -17,13 +18,12 @@ export const ProfessorService = {
         const normalizedData = {
             ...value,
             username: value.username.toLowerCase(),
-            password: hashPassword(value.password),
-            admin: false,
+            password: await hashPassword(value.password),
         }
 
         const query = `
-        INSERT INTO professors (username, password, name, surname, school, admin)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO professors (username, password, name, surname, school)
+        VALUES (?, ?, ?, ?, ?)
         `;
         const values = [
             normalizedData.username,
@@ -31,10 +31,9 @@ export const ProfessorService = {
             normalizedData.name,
             normalizedData.surname,
             normalizedData.school,
-            normalizedData.admin,
         ];
 
-        const [result] = await db.execute(query, values);
+        const [result] = await db.execute<ResultSetHeader>(query, values);
         return { id: result.insertId, ...normalizedData };
     },
 
@@ -46,7 +45,7 @@ export const ProfessorService = {
         return rows;
     },
 
-    async update( professorData ) {
+    async update(professorData: any) {
         const { error, value } = updateProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
         if ( error ) {
             throw new Error(error.details[0].message);
@@ -87,16 +86,21 @@ export const ProfessorService = {
         WHERE id = ?
         `;
 
-        const [result] = await db.execute(query, values);
+        const [result] = await db.execute<ResultSetHeader>(query, values);
         return { id: result.insertId, ...value };
     },
 
-    async delete( id_professor: number ) {
+    async delete( professorData: any ) {
+        const { error, value } = updateProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
+        if ( error ) {
+            throw new Error(error.details[0].message);
+        }
+
         const query = `
         DELETE FROM professors
         WHERE id_professor = ?
         `;
-        await db.execute(query, id_professor);
-        return { message: `Se ha eliminado al profesor con ID: ${id_professor}` };
+        await db.execute(query, value.id_professor);
+        return { message: `Se ha eliminado al profesor con ID: ${value.id_professor}` };
     },
 }
