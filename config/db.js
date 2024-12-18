@@ -1,10 +1,10 @@
 import mysql from "mysql";
 
-export const connectDB = async (url) => {
-    mysql.createConnection({
-        host: url,
-        user: "root",
-        password: "root",
-        database: "tfg",
-    });
-}
+const db = mysql.createPool({
+    host: url,
+    user: "root",
+    password: "root",
+    database: "tfg",
+});
+
+export default db;
