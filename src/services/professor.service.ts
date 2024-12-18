@@ -22,11 +22,10 @@ export const ProfessorService = {
         }
 
         const query = `
-        INSERT INTO professors (id_professor, username, password, name, surname, school, admin)
+        INSERT INTO professors (username, password, name, surname, school, admin)
         VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
         const values = [
-            normalizedData.id_professor,
             normalizedData.username,
             normalizedData.password,
             normalizedData.name,
@@ -48,7 +47,6 @@ export const ProfessorService = {
     },
 
     async update( professorData ) {
-        // MODIFY TO UPDATE
         const { error, value } = updateProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
         if ( error ) {
             throw new Error(error.details[0].message);
@@ -84,8 +82,9 @@ export const ProfessorService = {
         values.push(value.id_professor);
 
         const query = `
-        INSERT INTO professors (id_professor, username, password, name, surname, school, admin)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        UPDATE professors 
+        SET ${fields.join(", ")}
+        WHERE id = ?
         `;
 
         const [result] = await db.execute(query, values);
