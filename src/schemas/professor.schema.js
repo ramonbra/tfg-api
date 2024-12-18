@@ -19,7 +19,3 @@ export const updateProfessorSchema = Joi.object({
     school: Joi.string().optional(),
     admin: Joi.boolean().optional(),
 });
-
-export const deleteProfessorSchema = Joi.object({
-    id_professor: Joi.number().integer().positive().required(),
-});
