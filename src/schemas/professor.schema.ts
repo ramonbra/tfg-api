@@ -9,8 +9,13 @@ export const createProfessorSchema = Joi.object({
 });
 
 export const updateProfessorSchema = Joi.object({
+    id_professor: Joi.number().required(),
     name: Joi.string().optional(),
     surname: Joi.string().optional(),
     school: Joi.string().optional(),
     password: Joi.string().optional(),
+});
+
+export const deleteProfessorSchema = Joi.object({
+    id_professor: Joi.number().required()
 });

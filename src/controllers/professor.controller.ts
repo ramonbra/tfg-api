@@ -22,8 +22,8 @@ export const getProfessors = async(_request: Request, response: Response ) => {
 
 export const updateProfessor = async( request: Request, response: Response ) => {
     try{
-        const { name, surname, school, password } = request.body;
-        const updatedProfessor = await ProfessorService.update({ name, surname, school, password });
+        const { name, surname, school, password, id_professor } = request.body;
+        const updatedProfessor = await ProfessorService.update({ name, surname, school, password, id_professor });
         response.status(200).json(updatedProfessor);
     } catch (error: any) {
         response.status(500).json({ message: error.message });

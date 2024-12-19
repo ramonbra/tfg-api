@@ -2,7 +2,8 @@ import db from '../../config/db.ts';
 import Joi from 'joi';
 import { 
     createProfessorSchema, 
-    updateProfessorSchema
+    updateProfessorSchema,
+    deleteProfessorSchema
 } from '../schemas/professor.schema.ts';
 import { ProfessorData } from '../models/professor.model.ts';
 import { hashPassword } from './hasher.service.ts';
@@ -54,27 +55,27 @@ export const ProfessorService = {
         const fields: string[] = [];
         const values: any[] = [];
 
-        if (value.name){
+        if (value.name) {
             fields.push("name = ?");
             values.push(value.name);
         }
 
-        if (value.surname){
+        if (value.surname) {
             fields.push("surname = ?");
             values.push(value.surname);
         }
 
-        if (value.school){
+        if (value.school) {
             fields.push("school = ?");
             values.push(value.school);
         }
 
-        if (value.password){
+        if (value.password) {
             fields.push("password = ?");
-            values.push(hashPassword(value.password));
+            values.push(await hashPassword(value.password));
         }
 
-        if(fields.length === 0){
+        if (fields.length === 0) {
             throw new Error("No hay campos que actualizar.");
         }
 
@@ -91,7 +92,7 @@ export const ProfessorService = {
     },
 
     async delete( professorData: any ) {
-        const { error, value } = updateProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
+        const { error, value } = deleteProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
         if ( error ) {
             throw new Error(error.details[0].message);
         }
@@ -100,7 +101,12 @@ export const ProfessorService = {
         DELETE FROM professors
         WHERE id_professor = ?
         `;
-        await db.execute(query, value.id_professor);
+
+        console.log("ID: " + value.id_professor);
+        const values: any[] = [];
+        values.push(value.id_professor);
+
+        await db.execute(query, values);
         return { message: `Se ha eliminado al profesor con ID: ${value.id_professor}` };
     },
 }
