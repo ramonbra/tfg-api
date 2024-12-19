@@ -83,7 +83,7 @@ export const ProfessorService = {
         const query = `
         UPDATE professors 
         SET ${fields.join(", ")}
-        WHERE id = ?
+        WHERE id_professor = ?
         `;
 
         const [result] = await db.execute<ResultSetHeader>(query, values);
