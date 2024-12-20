@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ProfessorService } from "../services/professor.service.ts";
+import { ProfessorService } from "../services/professor.service";
 
 export const createProfessor = async( request: Request, response: Response ) => {
     try {
