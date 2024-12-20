@@ -22,17 +22,40 @@ export const ProfessorService = {
             password: await hashPassword(value.password),
         }
 
+        const fields: string[] = [];
+        const valuesFields: string[] = [];
+        const values: any[] = [];
+
+        fields.push("username");
+        valuesFields.push("?");
+        fields.push("password");
+        valuesFields.push("?");
+
+        values.push(normalizedData.username);
+        values.push(normalizedData.password);
+
+        if (value.name) {
+            fields.push("name");
+            valuesFields.push("?");
+            values.push(normalizedData.name);
+        }
+
+        if (value.surname) {
+            fields.push("surname");
+            valuesFields.push("?");
+            values.push(normalizedData.surname);
+        }
+
+        if (value.school) {
+            fields.push("school");
+            valuesFields.push("?");
+            values.push(normalizedData.school);
+        }
+
         const query = `
-        INSERT INTO professors (username, password, name, surname, school)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO professors (${fields.join(", ")})
+        VALUES (${valuesFields.join(", ")})
         `;
-        const values = [
-            normalizedData.username,
-            normalizedData.password,
-            normalizedData.name,
-            normalizedData.surname,
-            normalizedData.school,
-        ];
 
         const [result] = await db.execute<ResultSetHeader>(query, values);
         return { id: result.insertId, ...normalizedData };
