@@ -20,7 +20,14 @@ export const QuestionService = {
         VALUES (?, ?, ?, ?)
         `;
 
-        const [result] = await db.execute<ResultSetHeader>(query, value);
+        const values = [
+            value.question,
+            value.answers,
+            value.correction,
+            value.difficulty,
+        ]
+
+        const [result] = await db.execute<ResultSetHeader>(query, values);
         return { id: result.insertId, ...value };
     },
 
@@ -66,7 +73,7 @@ export const QuestionService = {
         }
 
         values.push(value.id_question);
-
+        
         const query = `
         UPDATE questions 
         SET ${fields.join(", ")}
@@ -74,7 +81,7 @@ export const QuestionService = {
         `;
 
         const [result] = await db.execute<ResultSetHeader>(query, values);
-        return { id: result.insertId, ...values };
+        return { id: result.insertId, ...value };
     },
 
     async delete( questionData: any ) {

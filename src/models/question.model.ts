@@ -4,6 +4,5 @@ export class QuestionData {
         public question: string,
         public answers: string,
         public correction: string,
-        public difficulty: string,)
-        {}
+        public difficulty: string,){}
     }
