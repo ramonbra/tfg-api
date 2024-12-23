@@ -33,6 +33,10 @@ export const updateQuestion = async( request: Request, response: Response ) => {
 export const deleteQuestion = async( request: Request, response: Response ) => {
     try{
         const { id_question } = request.body;
+        if(!id_question){
+            response.status(400).json({message: "id_question required"});
+        }
+
         const result = await QuestionService.delete({ id_question });
         response.status(200).json(result);
     } catch (error: any) {
