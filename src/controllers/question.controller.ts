@@ -3,8 +3,8 @@ import { QuestionService } from "../services/question.service";
 
 export const createQuestion = async( request: Request, response: Response ) => {
     try {
-        const { question, answers, correction, difficulty } = request.body;
-        const newQuestion = await QuestionService.create({ question, answers, correction, difficulty });
+        const { question, answers, correctAnswers, difficulty } = request.body;
+        const newQuestion = await QuestionService.create({ question, answers, correctAnswers, difficulty });
         response.status(201).json(newQuestion);
     } catch (error: any) {
         response.status(500).json({ message: error.message });
@@ -22,8 +22,8 @@ export const getQuestions = async(_request: Request, response: Response ) => {
 
 export const updateQuestion = async( request: Request, response: Response ) => {
     try{
-        const { id_question, question, answers, correction, difficulty } = request.body;
-        const updatedQuestion = await QuestionService.update({ id_question, question, answers, correction, difficulty });
+        const { id_question, question, answers, correctAnswers, difficulty } = request.body;
+        const updatedQuestion = await QuestionService.update({ id_question, question, answers, correctAnswers, difficulty });
         response.status(200).json(updatedQuestion);
     } catch (error: any) {
         response.status(500).json({ message: error.message });

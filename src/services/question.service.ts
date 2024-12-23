@@ -16,14 +16,14 @@ export const QuestionService = {
         }
 
         const query = `
-        INSERT INTO questions (question, answers, correction, difficulty)
+        INSERT INTO questions (question, answers, correctAnswers, difficulty)
         VALUES (?, ?, ?, ?)
         `;
 
         const values = [
             value.question,
             value.answers,
-            value.correction,
+            value.correctAnswers,
             value.difficulty,
         ]
 
@@ -33,7 +33,7 @@ export const QuestionService = {
 
     async get() {
         const query = `
-        SELECT id_question, question, answers, correction, difficulty FROM questions
+        SELECT id_question, question, answers, correctAnswers, difficulty FROM questions
         `;
         const [rows] = await db.execute(query);
         return rows;
@@ -45,38 +45,17 @@ export const QuestionService = {
             throw new Error(error.details[0].message);
         }
 
-        const fields: string[] = [];
-        const values: any[] = [];
-
-        if (value.question) {
-            fields.push("question = ?");
-            values.push(value.question);
-        }
-
-        if (value.answers) {
-            fields.push("answers = ?");
-            values.push(value.answers);
-        }
-
-        if (value.correction) {
-            fields.push("correction = ?");
-            values.push(value.correction);
-        }
-
-        if (value.difficulty) {
-            fields.push("difficulty = ?");
-            values.push(value.difficulty);
-        }
-
-        if (fields.length === 0) {
-            throw new Error("No hay campos que actualizar.");
-        }
-
-        values.push(value.id_question);
+        const values = [
+            value.question,
+            value.answers,
+            value.correctAnswers,
+            value.difficulty,
+            value.id_question
+        ]
         
         const query = `
         UPDATE questions 
-        SET ${fields.join(", ")}
+        SET question, answers, correctAnswers, difficulty
         WHERE id_question = ?
         `;
 
