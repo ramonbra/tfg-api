@@ -21,14 +21,8 @@ export const getProfessors = async(_request: Request, response: Response ) => {
 }
 
 export const updateProfessor = async( request: Request, response: Response ) => {
-    console.log("Controller update request body:", request.body);
     try{
         const { id_professor, username, password, name, surname, school } = request.body;
-        console.log("Controller username: ", username);
-        console.log("Controller password: ", password);
-        console.log("Controller name: ", name);
-        console.log("Controller surname: ", surname);
-        console.log("Controller school: ", school);
         const updatedProfessor = await ProfessorService.update({ id_professor, username, password, name, surname, school });
         response.status(200).json(updatedProfessor);
     } catch (error: any) {

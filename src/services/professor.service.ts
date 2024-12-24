@@ -11,7 +11,6 @@ import { ResultSetHeader } from 'mysql2';
 
 export const ProfessorService = {
     async create( professorData: any ) {
-        console.log("Service professorData: ", professorData);
 
         const { error, value } = createProfessorSchema.validate(professorData);
         if ( error ) {
@@ -72,13 +71,10 @@ export const ProfessorService = {
     },
 
     async update(professorData: any) {
-        console.log("Service update professorData: ", professorData);
         const { error, value } = updateProfessorSchema.validate(professorData);
         if ( error ) {
             throw new Error(error.details[0].message);
         }
-
-        console.log("Service postvalidation value: ", value);
 
         const fields: string[] = [];
         const values: any[] = [];
