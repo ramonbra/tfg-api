@@ -11,7 +11,9 @@ import { ResultSetHeader } from 'mysql2';
 
 export const ProfessorService = {
     async create( professorData: any ) {
-        const { error, value } = createProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
+        console.log("Service professorData: ", professorData);
+
+        const { error, value } = createProfessorSchema.validate(professorData);
         if ( error ) {
             throw new Error(error.details[0].message);
         }
@@ -63,17 +65,20 @@ export const ProfessorService = {
 
     async get() {
         const query = `
-        SELECT id_professor, name, surname, school, admin FROM professors
+        SELECT id_professor, username, name, surname, school, admin FROM professors
         `;
         const [rows] = await db.execute(query);
         return rows;
     },
 
     async update(professorData: any) {
-        const { error, value } = updateProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
+        console.log("Service update professorData: ", professorData);
+        const { error, value } = updateProfessorSchema.validate(professorData);
         if ( error ) {
             throw new Error(error.details[0].message);
         }
+
+        console.log("Service postvalidation value: ", value);
 
         const fields: string[] = [];
         const values: any[] = [];
