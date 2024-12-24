@@ -78,6 +78,16 @@ export const ProfessorService = {
         const fields: string[] = [];
         const values: any[] = [];
 
+        if (value.username) {
+            fields.push("username = ?");
+            values.push(value.username.toLowerCase());
+        }
+
+        if (value.password) {
+            fields.push("password = ?");
+            values.push(await hashPassword(value.password));
+        }
+
         if (value.name) {
             fields.push("name = ?");
             values.push(value.name);
@@ -91,11 +101,6 @@ export const ProfessorService = {
         if (value.school) {
             fields.push("school = ?");
             values.push(value.school);
-        }
-
-        if (value.password) {
-            fields.push("password = ?");
-            values.push(await hashPassword(value.password));
         }
 
         if (fields.length === 0) {
