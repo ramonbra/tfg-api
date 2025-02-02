@@ -12,8 +12,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use('/student', studentRouter);
 app.use('/professor', professorRouter);
 app.use('/question', questionRouter);
+app.use('/test', testRouter);
+app.use('/ranking', rankingRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
