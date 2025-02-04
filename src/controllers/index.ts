@@ -1,0 +1,5 @@
+export * from "./professor.controller"
+export * from "./question.controller"
+// export * from "./ranking.controller"
+export * from "./student.controller"
+export * from "./test.controller"

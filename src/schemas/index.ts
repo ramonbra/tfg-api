@@ -1,0 +1,5 @@
+export * from "./professor.schema"
+export * from "./question.schema"
+// export * from "./ranking.schema"
+export * from "./student.schema"
+export * from "./test.schema"

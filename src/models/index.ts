@@ -1,0 +1,5 @@
+export * from "./professor.model"
+export * from "./question.model"
+// export * from "./ranking.model"
+export * from "./student.model"
+export * from "./test.model"

@@ -1,0 +1,5 @@
+export * from "./professor.routes"
+export * from "./question.routes"
+// export * from "./ranking.routes"
+export * from "./student.routes"
+export * from "./test.routes"

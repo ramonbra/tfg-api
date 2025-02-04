@@ -1,12 +1,12 @@
-import db from '../../config/db.ts';
+import db from '../../config/db';
 import Joi from 'joi';
 import { 
     createProfessorSchema, 
     updateProfessorSchema,
     deleteProfessorSchema
-} from '../schemas/professor.schema.ts';
-import { ProfessorData } from '../models/professor.model.ts';
-import { hashPassword } from './hasher.service.ts';
+} from '../schemas';
+import { ProfessorData } from '../models';
+import { hashPassword } from './';
 import { ResultSetHeader } from 'mysql2';
 
 export const ProfessorService = {

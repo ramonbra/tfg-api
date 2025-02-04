@@ -1,11 +1,11 @@
-import db from '../../config/db.ts';
+import db from '../../config/db';
 import Joi from 'joi';
 import { 
     createQuestionSchema, 
     updateQuestionSchema,
     deleteQuestionSchema
-} from '../schemas/question.schema.ts';
-import { QuestionData } from '../models/question.model.ts';
+} from '../schemas';
+import { QuestionData } from '../models';
 import { ResultSetHeader } from 'mysql2';
 
 export const QuestionService = {
@@ -73,8 +73,7 @@ export const QuestionService = {
         DELETE FROM questions
         WHERE id_question = ?
         `;
-
-        console.log("ID: " + value.id_question);
+        
         const values: any[] = [];
         values.push(value.id_question);
 

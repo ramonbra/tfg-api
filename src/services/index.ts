@@ -1,0 +1,6 @@
+export * from "./hasher.service"
+export * from "./professor.service"
+export * from "./question.service"
+// export * from "./ranking.service"
+export * from "./student.service"
+export * from "./test.service"

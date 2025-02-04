@@ -5,6 +5,7 @@ export const createQuestionSchema = Joi.object({
     answers: Joi.string().required(),
     correctAnswers: Joi.string().required(),
     difficulty: Joi.string().required(),
+    labels: Joi.string().required(),
 });
 
 export const updateQuestionSchema = Joi.object({
@@ -13,6 +14,7 @@ export const updateQuestionSchema = Joi.object({
     answers: Joi.string().optional(),
     correctAnswers: Joi.string().optional(),
     difficulty: Joi.string().optional(),
+    labels: Joi.string().optional(),
 });
 
 export const deleteQuestionSchema = Joi.object({
