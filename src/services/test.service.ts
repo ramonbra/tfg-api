@@ -12,15 +12,15 @@ export const TestService = {
         }
 
         const query_test = `
-        INSERT INTO test (test_name)
-        VALUES (?)
+        INSERT INTO test (test_name, difficulty)
+        VALUES (?, ?)
         `;
 
         const [result_test] = await db.execute<ResultSetHeader>(query_test, [value.test_name]);
 
         const testId = result_test.insertId;
 
-        const combinedValues = value.test_questions.map(qId => [testId, value.test_questions]);
+        const combinedValues = value.test_questions.map(qId => [testId, qId]);
         const fields = combinedValues.map(() => "(?, ?)").join(", ");
         const flatValues = combinedValues.flat();
 
@@ -35,7 +35,7 @@ export const TestService = {
 
     async get_test() {
         const query = `
-        SELECT id_test, test_name FROM test
+        SELECT id_test, test_name, difficulty FROM test
         `;
         const [rows] = await db.execute(query) as [TestData[], any];
         return rows;

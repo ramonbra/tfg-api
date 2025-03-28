@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    command: npm run dev
+    networks:
+      - public
+      - private
+
+  database:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=
+    ports:
+      - 8282:8282
+    volumes:
+      - mysqldata:/data/db
+    networks:
+      - private
+volumes:
+  mysqldata:
+networks:
+  public:
+    driver: host
+  private:
+    driver: bridge
+secrets:
+  file: ./

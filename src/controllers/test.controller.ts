@@ -4,8 +4,8 @@ import { TestData } from "../models";
 
 export const createTest = async ( request: Request, response: Response ) => {
     try {
-        const { id_test, test_name, test_questions } = request.body;
-        const newTest = await TestService.create({ id_test, test_name, test_questions });
+        const { id_test, test_name, difficulty, test_questions } = request.body;
+        const newTest = await TestService.create({ id_test, test_name, difficulty, test_questions });
         response.status(201).json(newTest);
     } catch (error: any) {
         response.status(500).json({ message: error.message });
@@ -36,8 +36,8 @@ export const getTests = async ( _request: Request, response: Response ) => {
 
 export const updateTest = async ( request: Request, response: Response ) => {
     try{
-        const { id_test, test_name, test_questions } = request.body;
-        const updatedTest = await TestService.update({ id_test, test_name, test_questions });
+        const { id_test, test_name, difficulty, test_questions } = request.body;
+        const updatedTest = await TestService.update({ id_test, test_name, difficulty, test_questions });
         response.status(200).json(updatedTest);
     } catch (error: any) {
         response.status(500).json({ message: error.message });
