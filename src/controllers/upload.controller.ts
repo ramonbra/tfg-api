@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UploadedFile } from "express-fileupload";
-import xlsx from "xlsx";
+import xlsx from "@e965/xlsx";
 import { QuestionService } from "../services";
 
 export const createMultipleQuestions = async ( request: Request, response: Response ) => {
