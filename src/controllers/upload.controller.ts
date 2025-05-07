@@ -16,6 +16,7 @@ export const createMultipleQuestions = async ( request: Request, response: Respo
             await Promise.all(inputData.map(( row:any ) => {
                 const { question, answers, correctAnswers, difficulty, labels } = row;
                 try {
+                    if (!question || typeof question !== 'string') response.status(500).json({ message: 'No questions were found' }); 
                     if (question.toLowerCase() !== "example") {
                         QuestionService.create({
                             question,

@@ -1,7 +1,15 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { professorRouter, questionRouter, /*rankingRouter,*/ studentRouter, testRouter, uploadRouter } from "./src/routes";
+import { 
+    professorRouter, 
+    questionRouter, 
+    /*rankingRouter,*/ 
+    studentRouter, 
+    testRouter, 
+    uploadRouter, 
+    downloadRouter 
+} from "./src/routes";
 
 
 dotenv.config();
@@ -18,7 +26,10 @@ app.use('/question', questionRouter);
 app.use('/student', studentRouter);
 app.use('/test', testRouter);
 app.use('/upload', uploadRouter);
+app.use('/download', downloadRouter);
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
