@@ -6,5 +6,6 @@ export class QuestionData {
         public correctAnswers: string,
         public difficulty: string,
         public labels: string,
+        public image: string,
     ){}
     }

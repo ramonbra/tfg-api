@@ -16,8 +16,8 @@ export const QuestionService = {
         }
 
         const query = `
-        INSERT INTO questions (question, answers, correctAnswers, difficulty)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO questions (question, answers, correctAnswers, difficulty, labels, image)
+        VALUES (?, ?, ?, ?, ?, ?)
         `;
 
         const values = [
@@ -25,6 +25,8 @@ export const QuestionService = {
             value.answers,
             value.correctAnswers,
             value.difficulty,
+            value.labels,
+            value.image,
         ]
 
         const [result] = await db.execute<ResultSetHeader>(query, values);
@@ -33,7 +35,7 @@ export const QuestionService = {
 
     async get() {
         const query = `
-        SELECT id_question, question, answers, correctAnswers, difficulty FROM questions
+        SELECT id_question, question, answers, correctAnswers, difficulty, labels, image FROM questions
         `;
         const [rows] = await db.execute(query);
         return rows;
@@ -50,12 +52,14 @@ export const QuestionService = {
             value.answers,
             value.correctAnswers,
             value.difficulty,
-            value.id_question
+            value.labels,
+            value.image,
+            value.id_question,
         ]
         
         const query = `
         UPDATE questions 
-        SET question, answers, correctAnswers, difficulty
+        SET question, answers, correctAnswers, difficulty, labels, image
         WHERE id_question = ?
         `;
 
