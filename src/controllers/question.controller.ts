@@ -22,8 +22,8 @@ export const getQuestions = async(_request: Request, response: Response ) => {
 
 export const updateQuestion = async( request: Request, response: Response ) => {
     try{
-        const { id_question, question, answers, correctAnswers, difficulty } = request.body;
-        const updatedQuestion = await QuestionService.update({ id_question, question, answers, correctAnswers, difficulty });
+        const { id_question, question, answers, correctAnswers, difficulty, labels, image } = request.body;
+        const updatedQuestion = await QuestionService.update({ id_question, question, answers, correctAnswers, difficulty, labels, image });
         response.status(200).json(updatedQuestion);
     } catch (error: any) {
         response.status(500).json({ message: error.message });

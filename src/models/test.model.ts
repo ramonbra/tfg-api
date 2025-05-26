@@ -3,6 +3,7 @@ export class TestData {
         public id_test: number,
         public test_name: string,
         public difficulty: string,
+        public labels: string,
         public test_questions: number[],
     ){}
 }

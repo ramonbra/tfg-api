@@ -44,6 +44,7 @@ export const QuestionService = {
     async update(questionData: any) {
         const { error, value } = updateQuestionSchema.validate(questionData) as Joi.ValidationResult<QuestionData>;
         if ( error ) {
+            console.log("VALIDATION ERROR:", error.details);
             throw new Error(error.details[0].message);
         }
 
@@ -59,7 +60,7 @@ export const QuestionService = {
         
         const query = `
         UPDATE questions 
-        SET question, answers, correctAnswers, difficulty, labels, image
+        SET question = ?, answers = ?, correctAnswers = ?, difficulty = ?, labels = ?, image = ?
         WHERE id_question = ?
         `;
 

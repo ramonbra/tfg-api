@@ -12,11 +12,11 @@ export const TestService = {
         }
 
         const query_test = `
-        INSERT INTO test (test_name, difficulty)
-        VALUES (?, ?)
+        INSERT INTO tests (test_name, difficulty, labels)
+        VALUES (?, ?, ?)
         `;
 
-        const [result_test] = await db.execute<ResultSetHeader>(query_test, [value.test_name]);
+        const [result_test] = await db.execute<ResultSetHeader>(query_test, [value.test_name, value.difficulty, value.labels]);
 
         const testId = result_test.insertId;
 
@@ -33,24 +33,27 @@ export const TestService = {
         return {id: result_qpt.insertId, ...value}
     },
 
-    async get_test() {
+    async get_tests() {
         const query = `
-        SELECT id_test, test_name, difficulty FROM test
+        SELECT t.id_test, t.test_name, t.difficulty, t.labels, qpt.id_question 
+        FROM tests t
+        LEFT JOIN questions_per_test qpt ON t.id_test = qpt.id_test;
         `;
-        const [rows] = await db.execute(query) as [TestData[], any];
-        return rows;
-    },
 
-    async get_qpt( testId: number ) {
-        const query = `
-        SELECT id_test, id_question FROM questions_per_test
-        WHERE id_test = ?
-        `;
-        const [rows] = await db.execute(query, [testId]) as [TestData[], any];
+        type RawRow = {
+            id_test: number;
+            test_name: string;
+            difficulty: string;
+            labels: string;
+            id_question: number;
+        };
+        
+        const [rows] = await db.execute(query) as [RawRow[], any];
         return rows;
     },
 
     async update( testData: any ) {
+        console.log("SERVICE testdata:",testData);
         const { error, value } = baseTestSchema.validate(testData) as Joi.ValidationResult<TestData>;
         if ( error ){
             throw new Error( error.details[0].message );
@@ -58,23 +61,25 @@ export const TestService = {
 
         const values_test = [
             value.test_name,
+            value.difficulty,
+            value.labels,
             value.id_test
         ];
 
         const query_test = `
-        UPDATE test
-        SET test_name
+        UPDATE tests
+        SET test_name = ?, difficulty = ?, labels = ?
         WHERE id_test = ?
         `;
 
         const [ result_test ] = await db.execute<ResultSetHeader>(query_test, values_test);
 
-        const query_delete = `
+        const query_qpt_delete = `
         DELETE FROM questions_per_test 
         WHERE id_test = ?
         `;
 
-        await db.execute(query_delete, [value.id_test]);
+        const [result_qpt_delete] = await db.execute<ResultSetHeader>(query_qpt_delete, [value.id_test]);
 
         if(value.test_questions.length > 0) {
             const values_qpt = value.test_questions.map(qId => [value.id_test, qId]);
@@ -87,23 +92,29 @@ export const TestService = {
             `;
             
             const [ result_qpt ] = await db.execute<ResultSetHeader>(query_qpt, flatValues);
+            console.log("SERVICE result_qpt:",result_qpt);
         }
 
         return { id: result_test.insertId, ...value };
     },
 
-    async delete ( testData: any ) {
-        const { error, value } = deleteTestSchema.validate(testData) as Joi.ValidationResult<TestData>;
+    async delete ( id_test: any ) {
+        const { error, value } = deleteTestSchema.validate(id_test) as Joi.ValidationResult<TestData>;
         if ( error ) {
             throw new Error( error.details[0].message );
         }
 
-        const query_delete = `
-        DELETE FROM questions_per_test 
+        const query_test_delete = `
+        DELETE FROM tests
         WHERE id_test = ?
         `
 
-        const [ result_delete ] = await db.execute<ResultSetHeader>(query_delete, [value.id_test]);
-        return { message: `Se ha eliminado la question con ID: ${value.id_test}` };
+        const query_qpt_delete = `
+        DELETE FROM questions_per_test 
+        WHERE id_test = ?
+        `
+        const [ result_qpt_delete ] = await db.execute<ResultSetHeader>(query_qpt_delete, [value.id_test]);
+        const [ result_test_delete ] = await db.execute<ResultSetHeader>(query_test_delete, [value.id_test]);
+        return { message: `Se ha eliminado el test con ID: ${value.id_test}` };
     }
 }
