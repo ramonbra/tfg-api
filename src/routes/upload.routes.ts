@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { createMultipleQuestions } from '../controllers';
+import { createMultipleStudents, createMultipleQuestions } from '../controllers';
 
 export const uploadRouter = Router();
 
-uploadRouter.post('/', createMultipleQuestions);
+uploadRouter.post('/questions', createMultipleQuestions);
+uploadRouter.post('/students', createMultipleStudents);

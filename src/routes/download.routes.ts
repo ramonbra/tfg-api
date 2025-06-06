@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { downloadExampleXLSX } from '../controllers';
+import { downloadStudentsExampleXLSX, downloadQuestionsExampleXLSX } from '../controllers';
 
 export const downloadRouter = Router();
 
-downloadRouter.get('/', downloadExampleXLSX);
+downloadRouter.get('/questions', downloadQuestionsExampleXLSX);
+downloadRouter.get('/students', downloadStudentsExampleXLSX);

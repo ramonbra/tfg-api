@@ -11,8 +11,7 @@ import { ResultSetHeader } from 'mysql2';
 
 export const StudentService = {
     async create( studentData: any ) {
-
-        const { error, value } = createStudentSchema.validate(studentData);
+        const { error, value } = createStudentSchema.validate(studentData) as Joi.ValidationResult<StudentData>;
         if ( error ) {
             throw new Error(error.details[0].message);
         }
@@ -64,14 +63,14 @@ export const StudentService = {
 
     async get() {
         const query = `
-        SELECT id_student, username, name, surname, school, admin FROM students
+        SELECT id_student, username, name, surname, school FROM students
         `;
         const [rows] = await db.execute(query);
         return rows;
     },
 
     async update(studentData: any) {
-        const { error, value } = updateStudentSchema.validate(studentData);
+        const { error, value } = updateStudentSchema.validate(studentData) as Joi.ValidationResult<StudentData>;
         if ( error ) {
             throw new Error(error.details[0].message);
         }
@@ -136,6 +135,6 @@ export const StudentService = {
         values.push(value.id_student);
 
         await db.execute(query, values);
-        return { message: `Se ha eliminado al profesor con ID: ${value.id_student}` };
+        return { message: `Se ha eliminado al estudiante con ID: ${value.id_student}` };
     },
 }

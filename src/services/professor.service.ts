@@ -12,7 +12,7 @@ import { ResultSetHeader } from 'mysql2';
 export const ProfessorService = {
     async create( professorData: any ) {
 
-        const { error, value } = createProfessorSchema.validate(professorData);
+        const { error, value } = createProfessorSchema.validate(professorData) as Joi.ValidationResult<ProfessorData>;
         if ( error ) {
             throw new Error(error.details[0].message);
         }
@@ -130,8 +130,7 @@ export const ProfessorService = {
         DELETE FROM professors
         WHERE id_professor = ?
         `;
-
-        console.log("ID: " + value.id_professor);
+        
         const values: any[] = [];
         values.push(value.id_professor);
 
