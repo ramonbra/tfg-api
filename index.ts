@@ -2,13 +2,14 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { 
+    authRouter,
+    downloadRouter, 
     professorRouter, 
     questionRouter, 
     /*rankingRouter,*/ 
     studentRouter, 
     testRouter, 
-    uploadRouter, 
-    downloadRouter 
+    uploadRouter
 } from "./src/routes";
 
 
@@ -20,13 +21,14 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use('/auth', authRouter);
+app.use('/download', downloadRouter);
 app.use('/professor', professorRouter);
 app.use('/question', questionRouter);
 // app.use('/ranking', rankingRouter);
 app.use('/student', studentRouter);
 app.use('/test', testRouter);
 app.use('/upload', uploadRouter);
-app.use('/download', downloadRouter);
 
 const PORT = process.env.PORT || 8080;
 
