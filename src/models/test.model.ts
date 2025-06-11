@@ -5,5 +5,6 @@ export class TestData {
         public difficulty: string,
         public labels: string,
         public test_questions: number[],
+        public created_by: number,
     ){}
 }

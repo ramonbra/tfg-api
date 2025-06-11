@@ -3,9 +3,9 @@ import { StudentService } from "../services";
 
 export const createStudent = async( request: Request, response: Response ) => {
     try {
-        console.log("CONTROLLER Student received:", request.body);
-        const { username, password, name, surname, school } = request.body;
-        const newStudent = await StudentService.create({ username, password, name, surname, school });
+        console.log("CONTROLLER request body:", request.body);
+        const { username, password, name, surname, school, created_by } = request.body;
+        const newStudent = await StudentService.create({ username, password, name, surname, school, created_by });
         response.status(201).json(newStudent);
     } catch (error: any) {
         response.status(500).json({ message: error.message });

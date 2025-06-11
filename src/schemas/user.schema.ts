@@ -27,6 +27,7 @@ export const createStudentSchema = Joi.object({
     name: Joi.string().allow(null, '').optional(),
     surname: Joi.string().allow(null, '').optional(),
     school: Joi.string().allow(null, '').optional(),
+    created_by: Joi.number().required(),
 });
 
 export const updateStudentSchema = Joi.object({

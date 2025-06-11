@@ -22,6 +22,8 @@ export const StudentService = {
             password: await hashPassword(value.password),
         }
 
+        console.log("SERVICE normalizedData:",normalizedData);
+
         const fields: string[] = [];
         const valuesFields: string[] = [];
         const values: any[] = [];
@@ -51,6 +53,10 @@ export const StudentService = {
             valuesFields.push("?");
             values.push(normalizedData.school);
         }
+
+        fields.push("created_by");
+        valuesFields.push("?");
+        values.push(normalizedData.created_by);
 
         const query = `
         INSERT INTO students (${fields.join(", ")})

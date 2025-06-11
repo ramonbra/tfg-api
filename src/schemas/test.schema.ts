@@ -6,6 +6,7 @@ export const baseTestSchema = Joi.object({
     difficulty: Joi.string().required(),
     labels: Joi.string().optional(),
     test_questions: Joi.array().items(Joi.number()),
+    created_by: Joi.number().optional(),
 })
 
 export const deleteTestSchema = Joi.object({

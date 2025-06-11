@@ -7,6 +7,7 @@ export const createQuestionSchema = Joi.object({
     difficulty: Joi.string().required(),
     labels: Joi.string().required(),
     image: Joi.string().required(),
+    created_by: Joi.number().required(),
 });
 
 export const updateQuestionSchema = Joi.object({

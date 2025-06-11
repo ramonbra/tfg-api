@@ -12,11 +12,11 @@ export const TestService = {
         }
 
         const query_test = `
-        INSERT INTO tests (test_name, difficulty, labels)
-        VALUES (?, ?, ?)
+        INSERT INTO tests (test_name, difficulty, labels, created_by)
+        VALUES (?, ?, ?, ?)
         `;
 
-        const [result_test] = await db.execute<ResultSetHeader>(query_test, [value.test_name, value.difficulty, value.labels]);
+        const [result_test] = await db.execute<ResultSetHeader>(query_test, [value.test_name, value.difficulty, value.labels, value.created_by]);
 
         const testId = result_test.insertId;
 
@@ -35,7 +35,7 @@ export const TestService = {
 
     async get_tests() {
         const query = `
-        SELECT t.id_test, t.test_name, t.difficulty, t.labels, qpt.id_question 
+        SELECT t.id_test, t.test_name, t.difficulty, t.labels, t.created_by, qpt.id_question 
         FROM tests t
         LEFT JOIN questions_per_test qpt ON t.id_test = qpt.id_test;
         `;
@@ -46,6 +46,7 @@ export const TestService = {
             difficulty: string;
             labels: string;
             id_question: number;
+            created_by: number;
         };
         
         const [rows] = await db.execute(query) as [RawRow[], any];

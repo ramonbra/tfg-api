@@ -27,6 +27,7 @@ export const QuestionService = {
             value.difficulty,
             value.labels,
             value.image,
+            value.created_by,
         ]
 
         const [result] = await db.execute<ResultSetHeader>(query, values);
@@ -35,7 +36,7 @@ export const QuestionService = {
 
     async get() {
         const query = `
-        SELECT id_question, question, answers, correctAnswers, difficulty, labels, image FROM questions
+        SELECT id_question, question, answers, correctAnswers, difficulty, labels, image, created_by FROM questions
         `;
         const [rows] = await db.execute(query);
         return rows;
@@ -69,20 +70,14 @@ export const QuestionService = {
     },
 
     async delete( questionData: any ) {
-        const { error, value } = deleteQuestionSchema.validate(questionData) as Joi.ValidationResult<QuestionData>;
+        const { error, value } = deleteQuestionSchema.validate(questionData);
         if ( error ) {
             throw new Error(error.details[0].message);
         }
 
-        const query = `
-        DELETE FROM questions
-        WHERE id_question = ?
-        `;
-        
-        const values: any[] = [];
-        values.push(value.id_question);
+        await db.execute("DELETE FROM questions_per_test WHERE id_question = ?", [value.id_question]);
+        await db.execute("DELETE FROM questions WHERE id_question = ?", [value.id_question]);
 
-        await db.execute(query, values);
         return { message: `Se ha eliminado la question con ID: ${value.id_question}` };
     },
 }

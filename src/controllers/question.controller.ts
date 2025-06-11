@@ -3,8 +3,8 @@ import { QuestionService } from "../services";
 
 export const createQuestion = async( request: Request, response: Response ) => {
     try {
-        const { question, answers, correctAnswers, difficulty } = request.body;
-        const newQuestion = await QuestionService.create({ question, answers, correctAnswers, difficulty });
+        const { question, answers, correctAnswers, difficulty, created_by } = request.body;
+        const newQuestion = await QuestionService.create({ question, answers, correctAnswers, difficulty, created_by });
         response.status(201).json(newQuestion);
     } catch (error: any) {
         response.status(500).json({ message: error.message });
@@ -36,7 +36,6 @@ export const deleteQuestion = async( request: Request, response: Response ) => {
         if(!id_question){
             response.status(400).json({message: "id_question required"});
         }
-
         const result = await QuestionService.delete({ id_question });
         response.status(200).json(result);
     } catch (error: any) {

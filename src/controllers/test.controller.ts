@@ -33,8 +33,8 @@ export const getTests = async ( _request: Request, response: Response ) => {
 
 export const createTest = async ( request: Request, response: Response ) => {
     try {
-        const { test_name, difficulty, labels, test_questions } = request.body;
-        const newTest = await TestService.create({ test_name, difficulty, labels, test_questions });
+        const { test_name, difficulty, labels, test_questions, created_by } = request.body;
+        const newTest = await TestService.create({ test_name, difficulty, labels, test_questions, created_by });
         response.status(201).json(newTest);
     } catch (error: any) {
         console.error("Error al crear el test:",error);
