@@ -3,18 +3,19 @@ import { StudentService } from "../services";
 
 export const createStudent = async( request: Request, response: Response ) => {
     try {
-        console.log("CONTROLLER request body:", request.body);
         const { username, password, name, surname, school, created_by } = request.body;
         const newStudent = await StudentService.create({ username, password, name, surname, school, created_by });
         response.status(201).json(newStudent);
     } catch (error: any) {
+        console.log("CONTROLLER ERROR:",error);
         response.status(500).json({ message: error.message });
     }
 }
 
-export const getStudents = async(_request: Request, response: Response ) => {
+export const getStudents = async(request: Request, response: Response ) => {
     try{
-        const students = await StudentService.get();
+        const created_by = request.query.created_by ? Number(request.query.created_by) : undefined;
+        const students = await StudentService.get(created_by);
         response.status(200).json(students);
     } catch (error: any) {
         response.status(500).json({ message: error.message });

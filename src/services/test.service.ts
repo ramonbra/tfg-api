@@ -33,12 +33,19 @@ export const TestService = {
         return {id: result_qpt.insertId, ...value}
     },
 
-    async get_tests() {
-        const query = `
+    async get(created_by?: number) {
+        let query = `
         SELECT t.id_test, t.test_name, t.difficulty, t.labels, t.created_by, qpt.id_question 
         FROM tests t
         LEFT JOIN questions_per_test qpt ON t.id_test = qpt.id_test;
         `;
+
+        const values: any[] = [];
+
+        if (created_by) {
+            query += " WHERE t.created_by = ?";
+            values.push(created_by);
+        }
 
         type RawRow = {
             id_test: number;
@@ -49,7 +56,7 @@ export const TestService = {
             created_by: number;
         };
         
-        const [rows] = await db.execute(query) as [RawRow[], any];
+        const [rows] = await db.execute(query, values) as [RawRow[], any];
         return rows;
     },
 

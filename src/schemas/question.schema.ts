@@ -5,8 +5,8 @@ export const createQuestionSchema = Joi.object({
     answers: Joi.string().required(),
     correctAnswers: Joi.string().required(),
     difficulty: Joi.string().required(),
-    labels: Joi.string().required(),
-    image: Joi.string().required(),
+    labels: Joi.string().allow(null,'').required(),
+    image: Joi.string().allow(null,'').required(),
     created_by: Joi.number().required(),
 });
 

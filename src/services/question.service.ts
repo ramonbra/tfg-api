@@ -16,8 +16,8 @@ export const QuestionService = {
         }
 
         const query = `
-        INSERT INTO questions (question, answers, correctAnswers, difficulty, labels, image)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO questions (question, answers, correctAnswers, difficulty, labels, image, created_by)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
 
         const values = [
@@ -34,11 +34,16 @@ export const QuestionService = {
         return { id: result.insertId, ...value };
     },
 
-    async get() {
-        const query = `
-        SELECT id_question, question, answers, correctAnswers, difficulty, labels, image, created_by FROM questions
-        `;
-        const [rows] = await db.execute(query);
+    async get(created_by?: number) {
+        let query = "SELECT * FROM questions";
+        const values: any[] = [];
+
+        if (created_by) {
+            query += " WHERE created_by = ?";
+            values.push(created_by);
+        }
+        
+        const [rows] = await db.execute(query, values);
         return rows;
     },
 

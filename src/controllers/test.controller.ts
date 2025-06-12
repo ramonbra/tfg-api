@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { TestService } from "../services";
 import { TestData } from "../models";
 
-export const getTests = async ( _request: Request, response: Response ) => {
+export const getTests = async ( request: Request, response: Response ) => {
     
     try {
-        const rows = await TestService.get_tests();
+        const created_by = request.query.created_by ? Number(request.query.created_by) : undefined;
+        const rows = await TestService.get(created_by);
 
         const testsMap = new Map<number, any>();
 

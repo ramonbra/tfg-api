@@ -22,8 +22,6 @@ export const StudentService = {
             password: await hashPassword(value.password),
         }
 
-        console.log("SERVICE normalizedData:",normalizedData);
-
         const fields: string[] = [];
         const valuesFields: string[] = [];
         const values: any[] = [];
@@ -67,11 +65,18 @@ export const StudentService = {
         return { id: result.insertId, ...normalizedData };
     },
 
-    async get() {
-        const query = `
-        SELECT id_student, username, name, surname, school FROM students
+    async get(created_by?: number) {
+        let query = `
+        SELECT id_student, username, name, surname, school, created_by FROM students
         `;
-        const [rows] = await db.execute(query);
+        const values: any[] = [];
+        
+        if(created_by){
+            query +=" WHERE created_by = ?";
+            values.push(created_by);
+        }
+
+        const [rows] = await db.execute(query,values);
         return rows;
     },
 
