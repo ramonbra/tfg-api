@@ -1,7 +1,7 @@
 export * from "./auth.controller"
 export * from "./professor.controller"
 export * from "./question.controller"
-// export * from "./ranking.controller"
+export * from "./results.controller"
 export * from "./student.controller"
 export * from "./test.controller"
 export * from "./upload.controller"

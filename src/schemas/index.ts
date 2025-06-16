@@ -1,4 +1,4 @@
 export * from "./question.schema"
-// export * from "./ranking.schema"
+export * from "./result.schema"
 export * from "./test.schema"
 export * from "./user.schema"

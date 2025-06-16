@@ -6,7 +6,7 @@ import {
     downloadRouter, 
     professorRouter, 
     questionRouter, 
-    /*rankingRouter,*/ 
+    resultsRouter,
     studentRouter, 
     testRouter, 
     uploadRouter
@@ -25,7 +25,7 @@ app.use('/auth', authRouter);
 app.use('/download', downloadRouter);
 app.use('/professor', professorRouter);
 app.use('/question', questionRouter);
-// app.use('/ranking', rankingRouter);
+app.use('/results', resultsRouter);
 app.use('/student', studentRouter);
 app.use('/test', testRouter);
 app.use('/upload', uploadRouter);
