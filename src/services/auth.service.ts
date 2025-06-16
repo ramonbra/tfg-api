@@ -1,8 +1,10 @@
+import { ResultSetHeader } from 'mysql2';
 import db from '../../config/db';
+import { changePassword } from '../controllers';
 import { 
     authenticateUserSchema
 } from '../schemas';
-import { comparePasswords } from './hasher.service';
+import { comparePasswords, hashPassword } from './hasher.service';
 
 export const AuthService = {
   async authenticate( user: any ) {
@@ -49,4 +51,29 @@ export const AuthService = {
 
     throw new Error("User not found");
   },
+
+  async changePassword( user_id: number, user_role: string, newPassword: string ) {
+    let query: string = "";
+    const values: any[] = [];
+
+    
+    if(user_role === "professor"){
+      query += `
+        UPDATE professors 
+        SET password = ?
+        WHERE id_professor = ?
+      `;
+    } else {
+      query += `
+        UPDATE students 
+        SET password = ?
+        WHERE id_student = ?
+      `;
+    }
+    values.push(await hashPassword(newPassword));
+    values.push(user_id);
+
+    const [result] = await db.execute<ResultSetHeader>(query, values);
+    return { id: result.insertId };
+  }
 };
