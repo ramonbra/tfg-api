@@ -37,7 +37,7 @@ export const TestService = {
         let query = `
         SELECT t.id_test, t.test_name, t.difficulty, t.labels, t.created_by, qpt.id_question 
         FROM tests t
-        LEFT JOIN questions_per_test qpt ON t.id_test = qpt.id_test;
+        LEFT JOIN questions_per_test qpt ON t.id_test = qpt.id_test
         `;
 
         const values: any[] = [];
