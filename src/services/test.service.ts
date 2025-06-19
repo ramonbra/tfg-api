@@ -61,7 +61,6 @@ export const TestService = {
     },
 
     async update( testData: any ) {
-        console.log("SERVICE testdata:",testData);
         const { error, value } = baseTestSchema.validate(testData) as Joi.ValidationResult<TestData>;
         if ( error ){
             throw new Error( error.details[0].message );
