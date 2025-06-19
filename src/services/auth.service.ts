@@ -1,6 +1,5 @@
 import { ResultSetHeader } from 'mysql2';
 import db from '../../config/db';
-import { changePassword } from '../controllers';
 import { 
     authenticateUserSchema
 } from '../schemas';
@@ -18,7 +17,7 @@ export const AuthService = {
     }
 
     const queryStudent = `
-    SELECT id_student AS id, username, password 
+    SELECT id_student AS id, username, password, created_by 
     FROM students 
     WHERE username = ? 
     `

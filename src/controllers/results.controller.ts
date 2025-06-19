@@ -13,10 +13,11 @@ export const createResult = async( request: Request, response: Response ) => {
 
 export const getResults = async(request: Request, response: Response ) => {
     try{
-      const id_user = Number(request.query.id_user);
-      const isProfessor = Boolean(request.query.isProfessor);
-      const isAdmin = Boolean(request.query.isAdmin);
-      const results = await ResultService.get(id_user, isProfessor, isAdmin);
+      const user_id = Number(request.query.user_id);
+      const isProfessor = request.query.isProfessor === "true";
+      const isAdmin = request.query.isAdmin === "true";
+
+      const results = await ResultService.get(user_id, isProfessor, isAdmin);
       response.status(200).json(results);
     } catch (error: any) {
       response.status(500).json({ message: error.message });
