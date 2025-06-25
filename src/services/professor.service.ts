@@ -64,7 +64,7 @@ export const ProfessorService = {
 
     async get() {
         const query = `
-        SELECT id_professor, username, name, surname, school, admin FROM professors
+        SELECT id_professor, username, password, name, surname, school, admin FROM professors
         `;
         const [rows] = await db.execute(query);
         return rows;

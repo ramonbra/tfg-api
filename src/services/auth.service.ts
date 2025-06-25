@@ -9,7 +9,8 @@ export const AuthService = {
   async authenticate( user: any ) {
     const { error, value } = authenticateUserSchema.validate(user);
     if ( error ) {
-        throw new Error(error.details[0].message);
+      console.log(error);
+      throw new Error(error.details[0].message);
     }
 
     const normalizedData = {
