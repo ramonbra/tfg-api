@@ -1,7 +1,7 @@
 
 -- Script de inicialización de la base de datos del TFG
-CREATE DATABASE IF NOT EXISTS tfg CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE tfg;
+CREATE DATABASE IF NOT EXISTS andbioapps25 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE andbioapps25;
 
 -- Tabla de profesores
 CREATE TABLE professors (
